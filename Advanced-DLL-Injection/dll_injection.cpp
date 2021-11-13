@@ -103,7 +103,7 @@ DWORD __stdcall libraryLoader(LPVOID Memory)
 	return TRUE;
 }
 
-constexpr size_t SHELL_CODE_IA32_SIZE = 4096; // overestimate a little, writing too many bytes is fine
+constexpr size_t SHELL_CODE_IA32_SIZE = 512; // overestimate a little, actual size should be 0xf7 = 247
 
 DLLInjection::InjectionError DLLInjection::Injector::inject(const HANDLE proc)
 {
