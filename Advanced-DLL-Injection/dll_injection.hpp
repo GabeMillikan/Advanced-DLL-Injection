@@ -3,7 +3,18 @@
 #include <TlHelp32.h>
 #include <string>
 #include <codecvt>
-#include <iostream>
+
+#if defined DEBUG || defined _DEBUG 
+
+#error You cannot manual map in debug mode, it wouldn't be ossible to execute the shell code that way, sorry
+
+#endif // defined DEBUG || defined NDEBUG  || defined _DEBUG
+
+#ifdef _WIN64
+
+#error Only 32 bit architectures are supported
+
+#endif _WIN32
 
 namespace DLLInjection {
 	// main configurable property
