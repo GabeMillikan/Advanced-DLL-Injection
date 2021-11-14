@@ -288,7 +288,9 @@ DLLInjection::InjectionError DLLInjection::inject(char* dll, size_t dllSize, DWO
 DLLInjection::InjectionError DLLInjection::inject(char* dll, size_t dllSize, const char* procExeFile)
 {
 	// get pid
+	if (Util::logs) printf("Finding process id... ");
 	DWORD pid = Util::getPIDByExeName(procExeFile);
+	if (Util::logs) printf("Got %u\n", pid);
 	if (!pid)
 		return InjectionError::HostNotFound;
 
@@ -300,6 +302,7 @@ DLLInjection::InjectionError DLLInjection::inject(char* dll, size_t dllSize, con
 DLLInjection::InjectionError DLLInjection::inject(const char* dllPath, const char* procExeFile)
 {
 	// open file
+	if (Util::logs) printf("Opening .dll file\n");
 	std::fstream file(
 		dllPath,
 		std::ios::in | std::ios::binary
@@ -308,9 +311,11 @@ DLLInjection::InjectionError DLLInjection::inject(const char* dllPath, const cha
 		return InjectionError::DLLNotFound;
 
 	// read file size
+	if (Util::logs) printf("Reading .dll file... ");
 	file.seekg(0, std::ios::end);
 	size_t fileSize = (size_t)file.tellg();
 	file.seekg(0);
+	if (Util::logs) printf("Found %u bytes.\n", fileSize);
 
 	// read all file data
 	std::unique_ptr<char> dll(new char[fileSize]);
