@@ -187,7 +187,7 @@ namespace DLLInjection {
 	// in order to inject to a process, you must have AT LEAST these rights
 	// you could add more if you want. For example, if you also wanted to read data, use:
 	// `PROCESS_MINIMUM_RIGHTS | PROCESS_VM_READ`
-	constexpr DWORD PROCESS_MINIMUM_RIGHTS = PROCESS_ALL_ACCESS;
+	constexpr DWORD PROCESS_MINIMUM_RIGHTS = PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_CREATE_THREAD;
 
 	// utility so u don't have to do nasty conversions
 	template<typename T1, typename T2> inline void* addPointers(T1 a, T2 b)
@@ -354,7 +354,7 @@ namespace DLLInjection {
 		// 2. writes relevant information to host process
 		// 3. injects shellcode which processes relocations etc. and calls the entry point
 		// 4. invokes the shellcode
-		// proc = result from OpenProcess(); MUST HAVE PERMISSIONS: TODO: figure out which perms I need lol
+		// proc = result from OpenProcess(); must have at least PROCESS_MINIMUM_RIGHTS
 		InjectionError inject(const HANDLE proc);
 	};
 
